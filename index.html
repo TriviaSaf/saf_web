@@ -1,1 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecionando...</title>
+</head>
+<body>
 
+<h2>Conectando...</h2>
+
+<script>
+fetch("config.json?" + Date.now())
+.then(r => r.json())
+.then(cfg => {
+
+    if(cfg.url){
+        window.location.href = cfg.url;
+    }else{
+        document.body.innerHTML = "<h2>Servidor offline.</h2>";
+    }
+
+});
+</script>
+
+</body>
+</html>
