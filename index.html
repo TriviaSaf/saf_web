@@ -2,24 +2,49 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Redirecionando...</title>
+    <title>SAF Web</title>
 </head>
+
 <body>
 
-<h2>Conectando...</h2>
+<h2>Conectando ao servidor...</h2>
 
 <script>
-fetch("config.json?" + Date.now())
-.then(r => r.json())
-.then(cfg => {
 
-    if(cfg.url){
-        window.location.href = cfg.url;
-    }else{
-        document.body.innerHTML = "<h2>Servidor offline.</h2>";
+const GIST_URL =
+"https://gist.githubusercontent.com/TriviaSaf/c8ab4216e6dbf7a38b2d88ea230a952d/raw/url.txt";
+
+async function iniciar(){
+
+    try{
+
+        const resposta = await fetch(GIST_URL + "?t=" + Date.now(), {
+            cache: "no-store"
+        });
+
+        const url = (await resposta.text()).trim();
+
+        if(url === "" || url === "offline"){
+            document.body.innerHTML =
+            "<h2>Servidor offline.</h2>";
+            return;
+        }
+
+        window.location.replace(url);
+
     }
 
-});
+    catch(e){
+
+        document.body.innerHTML =
+        "<h2>Erro ao localizar o servidor.</h2>";
+
+    }
+
+}
+
+iniciar();
+
 </script>
 
 </body>
